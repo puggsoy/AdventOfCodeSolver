@@ -3,8 +3,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" Width="500" SizeToContent="Height" CanResize="False"
-        x:Class="Advent_Of_Code_Solver.MainWindow"
-        Title="Advent_Of_Code_Solver">
+        x:Class="AdventOfCodeSolver.MainWindow"
+        Title="Advent Of Code Solver">
   <Grid HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         Margin="20"
