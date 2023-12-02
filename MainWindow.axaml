@@ -1,0 +1,64 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Width="500" SizeToContent="Height" CanResize="False"
+        x:Class="Advent_Of_Code_Solver.MainWindow"
+        Title="Advent_Of_Code_Solver">
+  <Grid HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Margin="20"
+        ColumnDefinitions="*,*,*"
+        RowDefinitions="30, 50, 32, 32">
+    <TextBlock HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+      Year
+    </TextBlock>
+    <ComboBox HorizontalAlignment="Center" SelectedIndex="0" Grid.Column="0" Grid.Row="1" >
+      <ComboBoxItem>2023</ComboBoxItem>
+    </ComboBox>
+    <TextBlock HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" >
+      Day
+    </TextBlock>
+    <ComboBox HorizontalAlignment="Center" MaxDropDownHeight="200" SelectedIndex="0" Grid.Column="1" Grid.Row="1" >
+      <ComboBoxItem>1</ComboBoxItem>
+      <ComboBoxItem>2</ComboBoxItem>
+      <ComboBoxItem>3</ComboBoxItem>
+      <ComboBoxItem>4</ComboBoxItem>
+      <ComboBoxItem>5</ComboBoxItem>
+      <ComboBoxItem>6</ComboBoxItem>
+      <ComboBoxItem>7</ComboBoxItem>
+      <ComboBoxItem>8</ComboBoxItem>
+      <ComboBoxItem>9</ComboBoxItem>
+      <ComboBoxItem>10</ComboBoxItem>
+      <ComboBoxItem>11</ComboBoxItem>
+      <ComboBoxItem>12</ComboBoxItem>
+      <ComboBoxItem>13</ComboBoxItem>
+      <ComboBoxItem>14</ComboBoxItem>
+      <ComboBoxItem>15</ComboBoxItem>
+      <ComboBoxItem>16</ComboBoxItem>
+      <ComboBoxItem>17</ComboBoxItem>
+      <ComboBoxItem>18</ComboBoxItem>
+      <ComboBoxItem>19</ComboBoxItem>
+      <ComboBoxItem>20</ComboBoxItem>
+      <ComboBoxItem>21</ComboBoxItem>
+      <ComboBoxItem>22</ComboBoxItem>
+      <ComboBoxItem>23</ComboBoxItem>
+      <ComboBoxItem>24</ComboBoxItem>
+      <ComboBoxItem>25</ComboBoxItem>
+    </ComboBox>
+    <TextBlock HorizontalAlignment="Center" Grid.Column="2" Grid.Row="0" >
+      Puzzle
+    </TextBlock>
+    <ComboBox HorizontalAlignment="Center" SelectedIndex="0" Grid.Column="2" Grid.Row="1" >
+      <ComboBoxItem>1</ComboBoxItem>
+      <ComboBoxItem>2</ComboBoxItem>
+    </ComboBox>
+    <TextBox IsReadOnly="True" Focusable="False" Margin="0, 40, 10, 40" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+    </TextBox>
+    <Button Grid.Column="3" Grid.Row="2">
+      Browse
+    </Button>
+    <TextBox IsReadOnly="True" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="4">
+    </TextBox>
+  </Grid>
+</Window>
