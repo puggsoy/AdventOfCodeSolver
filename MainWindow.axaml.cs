@@ -94,7 +94,14 @@ namespace AdventOfCodeSolver
 
 			string output = m_year.Solve(day, puzzle, allLines);
 
-			outputTextBox.Text = output;
+			if (output == null)
+			{
+				outputTextBox.Text = "INVALID INPUT OR PUZZLE!";
+			}
+			else
+			{
+				outputTextBox.Text = output;
+			}
 		}
 	}
 }
