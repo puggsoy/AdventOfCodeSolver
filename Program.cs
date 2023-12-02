@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using System;
 
-namespace Advent_Of_Code_Solver
+namespace AdventOfCodeSolver
 {
 	internal class Program
 	{

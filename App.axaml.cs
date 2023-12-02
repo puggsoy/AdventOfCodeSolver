@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-namespace Advent_Of_Code_Solver
+namespace AdventOfCodeSolver
 {
 	public partial class App : Application
 	{
