@@ -1,8 +1,11 @@
 using Advent_Of_Code_Solver;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace AdventOfCodeSolver
 {
@@ -63,6 +66,35 @@ namespace AdventOfCodeSolver
 
 			puzzleComboBox.SelectedIndex = 0;
 		}
+
+		public async void OnBrowseClick(object sender, RoutedEventArgs e)
+		{
+			FilePickerOpenOptions options = new FilePickerOpenOptions()
+			{
+				Title = "Select input file",
+				AllowMultiple = false,
+				FileTypeFilter = new FilePickerFileType[] { FilePickerFileTypes.All }
+			};
+			Task<IReadOnlyList<IStorageFile>> fileTask = StorageProvider.OpenFilePickerAsync(options);
+			await fileTask;
+
+			if (fileTask.Result.Count == 0)
+			{
+				return;
+			}
+
+			IStorageFile file = fileTask.Result[0];
+
+			string[] allLines = File.ReadAllLines(file.Path.AbsolutePath);
+
+			browseTextBox.Text = file.Path.AbsolutePath;
+
+			int day = (int)dayComboBox.SelectedItem;
+			int puzzle = (int)puzzleComboBox.SelectedItem;
+
+			string output = m_year.Solve(day, puzzle, allLines);
+
+			outputTextBox.Text = output;
+		}
 	}
 }
-

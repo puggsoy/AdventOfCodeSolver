@@ -14,7 +14,7 @@ namespace AdventOfCodeSolver
 			new IYear.DayDefinition(1, true, false)
 		};
 
-		public string Solve(int day, int puzzle, string input)
+		public string Solve(int day, int puzzle, string[] input)
 		{
 			if (puzzle < 1 || puzzle > 2)
 				return null;
@@ -28,9 +28,11 @@ namespace AdventOfCodeSolver
 			}
 		}
 
-		public string SolveDay1(int puzzle, string input)
+		public string SolveDay1(int puzzle, string[] input)
 		{
-			return string.Empty;
+			char[] charArray = input[0].ToCharArray();
+			Array.Reverse(charArray);
+			return new string(charArray);
 		}
 	}
 }

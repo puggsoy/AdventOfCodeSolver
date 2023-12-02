@@ -23,5 +23,7 @@ namespace Advent_Of_Code_Solver
 		}
 
 		public List<DayDefinition> DayDefinitions { get; }
+
+		public string Solve(int day, int puzzle, string[] input);
 	}
 }
