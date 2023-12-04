@@ -13,7 +13,7 @@ namespace AdventOfCodeSolver
 		public List<IYear.DayDefinition> DayDefinitions { get; private set; } = new List<IYear.DayDefinition>()
 		{
 			new IYear.DayDefinition(1, true, true),
-			new IYear.DayDefinition(2, true, false)
+			new IYear.DayDefinition(2, true, true)
 		};
 
 		public string Solve(int day, int puzzle, string[] input)
@@ -144,56 +144,106 @@ namespace AdventOfCodeSolver
 
 		private string SolveDay2(int puzzle, string[] input)
 		{
-			Dictionary<string, int> bagDefinition = new Dictionary<string, int>()
+			if (puzzle == 1)
 			{
-				{ "red", 12 },
-				{ "green", 13 },
-				{ "blue", 14 }
-			};
-
-			int idSum = 0;
-
-			foreach (string line in input)
-			{
-				bool possible = true;
-
-				int colonIndex = line.IndexOf(':');
-				string id = line.Substring(0, colonIndex);
-				string list = line.Substring(colonIndex + 2);
-				string[] sets = list.Split("; ");
-
-				foreach (string set in sets)
+				Dictionary<string, int> bagDefinition = new Dictionary<string, int>()
 				{
-					string[] draws = set.Split(", ");
-					
-					foreach (string draw in draws)
-					{
-						int spaceIndex = draw.IndexOf(" ");
-						string amountString = draw.Substring(0, spaceIndex);
-						int.TryParse(amountString, out int amount);
-						string color = draw.Substring(spaceIndex + 1);
+					{ "red", 12 },
+					{ "green", 13 },
+					{ "blue", 14 }
+				};
 
-						if (amount > bagDefinition[color])
+				int idSum = 0;
+
+				foreach (string line in input)
+				{
+					bool possible = true;
+
+					int colonIndex = line.IndexOf(':');
+					string id = line.Substring(0, colonIndex);
+					string list = line.Substring(colonIndex + 2);
+					string[] sets = list.Split("; ");
+
+					foreach (string set in sets)
+					{
+						string[] draws = set.Split(", ");
+
+						foreach (string draw in draws)
 						{
-							possible = false;
-							break;
+							int spaceIndex = draw.IndexOf(" ");
+							string amountString = draw.Substring(0, spaceIndex);
+							int.TryParse(amountString, out int amount);
+							string color = draw.Substring(spaceIndex + 1);
+
+							if (amount > bagDefinition[color])
+							{
+								possible = false;
+								break;
+							}
 						}
+
+						if (!possible)
+							break;
 					}
 
 					if (!possible)
-						break;
+						continue;
+
+					id = id.Substring(5);
+					int.TryParse(id, out int idNum);
+
+					idSum += idNum;
 				}
 
-				if (!possible)
-					continue;
-
-				id = id.Substring(5);
-				int.TryParse(id, out int idNum);
-
-				idSum += idNum;
+				return idSum.ToString();
 			}
+			else if (puzzle == 2)
+			{
+				int powerSum = 0;
 
-			return idSum.ToString();
+				foreach (string line in input)
+				{
+					Dictionary<string, int> minimums = new Dictionary<string, int>()
+					{
+						{ "red", 0 },
+						{ "green", 0 },
+						{ "blue", 0 }
+					};
+
+					int colonIndex = line.IndexOf(':');
+					string id = line.Substring(0, colonIndex);
+					string list = line.Substring(colonIndex + 2);
+					string[] sets = list.Split("; ");
+
+					foreach (string set in sets)
+					{
+						string[] draws = set.Split(", ");
+
+						foreach (string draw in draws)
+						{
+							int spaceIndex = draw.IndexOf(" ");
+							string amountString = draw.Substring(0, spaceIndex);
+							int.TryParse(amountString, out int amount);
+							string color = draw.Substring(spaceIndex + 1);
+
+							if (amount > minimums[color])
+							{
+								minimums[color] = amount;
+							}
+						}
+					}
+
+					int power = minimums["red"] * minimums["green"] * minimums["blue"];
+
+					powerSum += power;
+				}
+
+				return powerSum.ToString();
+			}
+			else
+			{
+				return null;
+			}
 		}
 	}
 }
