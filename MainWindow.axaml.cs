@@ -73,7 +73,7 @@ namespace AdventOfCodeSolver
 			{
 				Title = "Select input file",
 				AllowMultiple = false,
-				FileTypeFilter = new FilePickerFileType[] { FilePickerFileTypes.All }
+				FileTypeFilter = new FilePickerFileType[] { FilePickerFileTypes.TextPlain }
 			};
 			Task<IReadOnlyList<IStorageFile>> fileTask = StorageProvider.OpenFilePickerAsync(options);
 			await fileTask;
