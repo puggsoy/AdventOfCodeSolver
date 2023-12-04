@@ -12,7 +12,8 @@ namespace AdventOfCodeSolver
 	{
 		public List<IYear.DayDefinition> DayDefinitions { get; private set; } = new List<IYear.DayDefinition>()
 		{
-			new IYear.DayDefinition(1, true, true)
+			new IYear.DayDefinition(1, true, true),
+			new IYear.DayDefinition(2, true, false)
 		};
 
 		public string Solve(int day, int puzzle, string[] input)
@@ -24,6 +25,8 @@ namespace AdventOfCodeSolver
 			{
 				case 1:
 					return SolveDay1(puzzle, input);
+				case 2:
+					return SolveDay2(puzzle, input);
 				default:
 					return null;
 			}
@@ -137,7 +140,60 @@ namespace AdventOfCodeSolver
 			{
 				return null;
 			}
-			
+		}
+
+		private string SolveDay2(int puzzle, string[] input)
+		{
+			Dictionary<string, int> bagDefinition = new Dictionary<string, int>()
+			{
+				{ "red", 12 },
+				{ "green", 13 },
+				{ "blue", 14 }
+			};
+
+			int idSum = 0;
+
+			foreach (string line in input)
+			{
+				bool possible = true;
+
+				int colonIndex = line.IndexOf(':');
+				string id = line.Substring(0, colonIndex);
+				string list = line.Substring(colonIndex + 2);
+				string[] sets = list.Split("; ");
+
+				foreach (string set in sets)
+				{
+					string[] draws = set.Split(", ");
+					
+					foreach (string draw in draws)
+					{
+						int spaceIndex = draw.IndexOf(" ");
+						string amountString = draw.Substring(0, spaceIndex);
+						int.TryParse(amountString, out int amount);
+						string color = draw.Substring(spaceIndex + 1);
+
+						if (amount > bagDefinition[color])
+						{
+							possible = false;
+							break;
+						}
+					}
+
+					if (!possible)
+						break;
+				}
+
+				if (!possible)
+					continue;
+
+				id = id.Substring(5);
+				int.TryParse(id, out int idNum);
+
+				idSum += idNum;
+			}
+
+			return idSum.ToString();
 		}
 	}
 }
