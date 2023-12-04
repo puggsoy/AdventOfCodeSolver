@@ -103,5 +103,10 @@ namespace AdventOfCodeSolver
 				outputTextBox.Text = output;
 			}
 		}
+
+		public void OnCopyClick(object sender, RoutedEventArgs e)
+		{
+			Clipboard?.SetTextAsync(outputTextBox.Text);
+		}
 	}
 }
