@@ -13,7 +13,8 @@ namespace AdventOfCodeSolver
 		public List<IYear.DayDefinition> DayDefinitions { get; private set; } = new List<IYear.DayDefinition>()
 		{
 			new IYear.DayDefinition(1, true, true),
-			new IYear.DayDefinition(2, true, true)
+			new IYear.DayDefinition(2, true, true),
+			new IYear.DayDefinition(3, true),
 		};
 
 		public string Solve(int day, int puzzle, string[] input)
@@ -27,6 +28,8 @@ namespace AdventOfCodeSolver
 					return SolveDay1(puzzle, input);
 				case 2:
 					return SolveDay2(puzzle, input);
+				case 3:
+					return SolveDay3(puzzle, input);
 				default:
 					return null;
 			}
@@ -244,6 +247,105 @@ namespace AdventOfCodeSolver
 			{
 				return null;
 			}
+		}
+
+		private string SolveDay3(int puzzle, string[] input)
+		{
+			if (puzzle == 1)
+			{
+				int finalSum = 0;
+
+				int lineLength = input[0].Length;
+
+				for (int i = 0; i < input.Length; i++)
+				{
+					int numberEnd = 0;
+					int numberStart = IndexOfPredicate(input[i], numberEnd, IsDigit);
+
+					while (numberStart >= 0)
+					{
+						numberEnd = IndexOfPredicate(input[i], numberStart,  c => !IsDigit(c));
+						if (numberEnd < 0)
+							numberEnd = input[i].Length;
+
+						string numberString = input[i].Substring(numberStart, numberEnd - numberStart);
+						int.TryParse(numberString, out int number);
+
+						bool valid = false;
+
+						if ((numberStart > 0 && IsSymbol(input[i][numberStart - 1])) || (numberEnd < input[i].Length - 1 && IsSymbol(input[i][numberEnd])))
+						{
+							valid = true;
+						}
+
+						if (i > 0 && !valid)
+						{
+							for (int k = numberStart - 1; k < numberEnd + 1; k++)
+							{
+								if (k < 0 || k > input[i - 1].Length - 1)
+									continue;
+
+								if (IsSymbol(input[i - 1][k]))
+								{
+									valid = true;
+
+									break;
+								}
+							}
+						}
+
+						if (i < input.Length - 1 && !valid)
+						{
+							for (int k = numberStart - 1; k < numberEnd + 1; k++)
+							{
+								if (k < 0 || k > input[i + 1].Length - 1)
+									continue;
+
+								if (IsSymbol(input[i + 1][k]))
+								{
+									valid = true;
+
+									break;
+								}
+							}
+						}
+
+						if (valid)
+						{
+							finalSum += number;
+						}
+
+						numberStart = IndexOfPredicate(input[i], numberEnd, IsDigit);
+					}
+				}
+
+				return finalSum.ToString();
+			}
+			else
+			{
+				return null;
+			}
+
+			bool IsDigit(char c)
+			{
+				return int.TryParse(c.ToString(), out int _);
+			}
+
+			bool IsSymbol(char c)
+			{
+				return !IsDigit(c) && c != '.';
+			}
+		}
+
+		private int IndexOfPredicate(string input, int startingIndex, Predicate<char> predicate)
+		{
+			for (int i = startingIndex; i < input.Length; i++)
+			{
+				if (predicate(input[i]))
+					return i;
+			}
+
+			return -1;
 		}
 	}
 }
