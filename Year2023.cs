@@ -14,7 +14,7 @@ namespace AdventOfCodeSolver
 		{
 			new IYear.DayDefinition(1, true, true),
 			new IYear.DayDefinition(2, true, true),
-			new IYear.DayDefinition(3, true),
+			new IYear.DayDefinition(3, true, true),
 		};
 
 		public string Solve(int day, int puzzle, string[] input)
@@ -321,6 +321,110 @@ namespace AdventOfCodeSolver
 
 				return partSum.ToString();
 			}
+			else if (puzzle == 2)
+			{
+				int ratioSum = 0;
+				// Key is star coordinates, value is part numbers
+				Dictionary<(int, int), List<int>> gears = new Dictionary<(int, int), List<int>>();
+
+				int lineLength = input[0].Length;
+
+				for (int i = 0; i < input.Length; i++)
+				{
+					int partNumEnd = 0;
+					int partNumStart = IndexOfPredicate(input[i], partNumEnd, IsDigit);
+
+					while (partNumStart >= 0)
+					{
+						partNumEnd = IndexOfPredicate(input[i], partNumStart, c => !IsDigit(c));
+						if (partNumEnd < 0)
+							partNumEnd = input[i].Length;
+
+						string partNumString = input[i].Substring(partNumStart, partNumEnd - partNumStart);
+						int.TryParse(partNumString, out int partNum);
+
+						bool valid = false;
+
+						if (partNumStart > 0 && IsStar(input[i][partNumStart - 1]))
+						{
+							(int, int) key = (i, partNumStart - 1);
+
+							if (!gears.ContainsKey((key)))
+								gears[(key)] = new List<int>();
+
+							gears[(key)].Add(partNum);
+							valid = true;
+						}
+						else if (partNumEnd < input[i].Length - 1 && IsStar(input[i][partNumEnd]))
+						{
+							(int, int) key = (i, partNumEnd);
+
+							if (!gears.ContainsKey((key)))
+								gears[(key)] = new List<int>();
+
+							gears[(key)].Add(partNum);
+							valid = true;
+						}
+
+						if (i > 0 && !valid)
+						{
+							for (int k = partNumStart - 1; k < partNumEnd + 1; k++)
+							{
+								if (k < 0 || k > input[i - 1].Length - 1)
+									continue;
+
+								if (IsStar(input[i - 1][k]))
+								{
+									(int, int) key = (i - 1, k);
+
+									if (!gears.ContainsKey((key)))
+										gears[(key)] = new List<int>();
+
+									gears[(key)].Add(partNum);
+									valid = true;
+
+									break;
+								}
+							}
+						}
+
+						if (i < input.Length - 1 && !valid)
+						{
+							for (int k = partNumStart - 1; k < partNumEnd + 1; k++)
+							{
+								if (k < 0 || k > input[i + 1].Length - 1)
+									continue;
+
+								if (IsStar(input[i + 1][k]))
+								{
+									(int, int) key = (i + 1, k);
+
+									if (!gears.ContainsKey((key)))
+										gears[(key)] = new List<int>();
+
+									gears[(key)].Add(partNum);
+									valid = true;
+
+									break;
+								}
+							}
+						}
+
+						partNumStart = IndexOfPredicate(input[i], partNumEnd, IsDigit);
+					}
+				}
+
+				foreach (List<int> partNums in gears.Values)
+				{
+					if (partNums.Count < 2)
+						continue;
+
+					int ratio = partNums[0] * partNums[1];
+					ratioSum += ratio;
+				}
+
+				return ratioSum.ToString();
+			}
 			else
 			{
 				return null;
@@ -334,6 +438,11 @@ namespace AdventOfCodeSolver
 			bool IsSymbol(char c)
 			{
 				return !IsDigit(c) && c != '.';
+			}
+
+			bool IsStar(char c)
+			{
+				return c == '*';
 			}
 		}
 
