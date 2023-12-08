@@ -253,34 +253,34 @@ namespace AdventOfCodeSolver
 		{
 			if (puzzle == 1)
 			{
-				int finalSum = 0;
+				int partSum = 0;
 
 				int lineLength = input[0].Length;
 
 				for (int i = 0; i < input.Length; i++)
 				{
-					int numberEnd = 0;
-					int numberStart = IndexOfPredicate(input[i], numberEnd, IsDigit);
+					int partNumEnd = 0;
+					int partNumStart = IndexOfPredicate(input[i], partNumEnd, IsDigit);
 
-					while (numberStart >= 0)
+					while (partNumStart >= 0)
 					{
-						numberEnd = IndexOfPredicate(input[i], numberStart,  c => !IsDigit(c));
-						if (numberEnd < 0)
-							numberEnd = input[i].Length;
+						partNumEnd = IndexOfPredicate(input[i], partNumStart,  c => !IsDigit(c));
+						if (partNumEnd < 0)
+							partNumEnd = input[i].Length;
 
-						string numberString = input[i].Substring(numberStart, numberEnd - numberStart);
-						int.TryParse(numberString, out int number);
+						string partNumString = input[i].Substring(partNumStart, partNumEnd - partNumStart);
+						int.TryParse(partNumString, out int partNum);
 
 						bool valid = false;
 
-						if ((numberStart > 0 && IsSymbol(input[i][numberStart - 1])) || (numberEnd < input[i].Length - 1 && IsSymbol(input[i][numberEnd])))
+						if ((partNumStart > 0 && IsSymbol(input[i][partNumStart - 1])) || (partNumEnd < input[i].Length - 1 && IsSymbol(input[i][partNumEnd])))
 						{
 							valid = true;
 						}
 
 						if (i > 0 && !valid)
 						{
-							for (int k = numberStart - 1; k < numberEnd + 1; k++)
+							for (int k = partNumStart - 1; k < partNumEnd + 1; k++)
 							{
 								if (k < 0 || k > input[i - 1].Length - 1)
 									continue;
@@ -296,7 +296,7 @@ namespace AdventOfCodeSolver
 
 						if (i < input.Length - 1 && !valid)
 						{
-							for (int k = numberStart - 1; k < numberEnd + 1; k++)
+							for (int k = partNumStart - 1; k < partNumEnd + 1; k++)
 							{
 								if (k < 0 || k > input[i + 1].Length - 1)
 									continue;
@@ -312,14 +312,14 @@ namespace AdventOfCodeSolver
 
 						if (valid)
 						{
-							finalSum += number;
+							partSum += partNum;
 						}
 
-						numberStart = IndexOfPredicate(input[i], numberEnd, IsDigit);
+						partNumStart = IndexOfPredicate(input[i], partNumEnd, IsDigit);
 					}
 				}
 
-				return finalSum.ToString();
+				return partSum.ToString();
 			}
 			else
 			{
