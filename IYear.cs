@@ -14,7 +14,7 @@ namespace Advent_Of_Code_Solver
 			public bool Puzzle1;
 			public bool Puzzle2;
 
-			public DayDefinition(int num, bool puz1,  bool puz2)
+			public DayDefinition(int num, bool puz1,  bool puz2 = false)
 			{
 				Number = num;
 				Puzzle1 = puz1;
