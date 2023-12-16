@@ -16,7 +16,7 @@ namespace AdventOfCodeSolver
 			new IYear.DayDefinition(1, true, true),
 			new IYear.DayDefinition(2, true, true),
 			new IYear.DayDefinition(3, true, true),
-			new IYear.DayDefinition(4, true, false),
+			new IYear.DayDefinition(4, true, true),
 		};
 
 		public string Solve(int day, int puzzle, string[] input)
@@ -480,6 +480,49 @@ namespace AdventOfCodeSolver
 				}
 
 				return pointTotal.ToString();
+			}
+			else if (puzzle == 2)
+			{
+				int cardTotal = 0;
+
+				List<int> copies = new List<int>();
+
+				for (int i = 0; i < input.Length; i++)
+				{
+					int copyNum = 0;
+
+					if (copies.Count > 0)
+					{
+						copyNum = copies[0];
+						copies.RemoveAt(0);
+					}
+
+					string numbers = input[i].Split(':')[1];
+
+					string[] sets = numbers.Split("|");
+
+					string[] winning = Regex.Split(sets[0].Trim(), @"\s+");
+					string[] have = Regex.Split(sets[1].Trim(), @"\s+");
+
+					int copyIndex = 0;
+
+					for (int k = 0; k < winning.Length; k++)
+					{
+						if (have.Contains(winning[k]))
+						{
+							if (copyIndex == copies.Count)
+								copies.Add(copyNum + 1);
+							else
+								copies[copyIndex] += copyNum + 1;
+
+							copyIndex++;
+						}
+					}
+
+					cardTotal += copyNum + 1;
+				}
+
+				return cardTotal.ToString();
 			}
 			else
 			{
