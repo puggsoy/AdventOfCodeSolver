@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AdventOfCodeSolver
@@ -15,6 +16,7 @@ namespace AdventOfCodeSolver
 			new IYear.DayDefinition(1, true, true),
 			new IYear.DayDefinition(2, true, true),
 			new IYear.DayDefinition(3, true, true),
+			new IYear.DayDefinition(4, true, false),
 		};
 
 		public string Solve(int day, int puzzle, string[] input)
@@ -30,6 +32,8 @@ namespace AdventOfCodeSolver
 					return SolveDay2(puzzle, input);
 				case 3:
 					return SolveDay3(puzzle, input);
+				case 4:
+					return SolveDay4(puzzle, input);
 				default:
 					return null;
 			}
@@ -443,6 +447,43 @@ namespace AdventOfCodeSolver
 			bool IsStar(char c)
 			{
 				return c == '*';
+			}
+		}
+
+		private string SolveDay4(int puzzle, string[] input)
+		{
+			if (puzzle == 1)
+			{
+				int pointTotal = 0;
+
+				for (int i = 0; i < input.Length; i++)
+				{
+					string numbers = input[i].Split(':')[1];
+
+					string[] sets = numbers.Split("|");
+
+					string[] winning = Regex.Split(sets[0].Trim(), @"\s+");
+					string[] have = Regex.Split(sets[1].Trim(), @"\s+");
+
+					int matchNum = 0;
+
+					for (int k = 0; k < winning.Length; k++)
+					{
+						if (have.Contains(winning[k]))
+							matchNum++;
+					}
+
+					if (matchNum > 0)
+					{
+						pointTotal += (int)Math.Pow(2, matchNum - 1);
+					}
+				}
+
+				return pointTotal.ToString();
+			}
+			else
+			{
+				return null;
 			}
 		}
 
